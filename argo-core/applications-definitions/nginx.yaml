@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://github.com/frvasquezjaquez/argocd-boilerplate.git
     targetRevision: HEAD
-    path: applications/business-logic/nginx/overlays/dev
+    path: applications/business-logic/nginx/overlays/prod
 
   # Destination cluster and namespace to deploy the application
   destination:

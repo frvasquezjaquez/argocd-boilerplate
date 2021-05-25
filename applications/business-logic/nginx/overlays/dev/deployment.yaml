@@ -3,7 +3,4 @@ kind: Deployment
 metadata:
   name: nginx-deployment
 spec:
-  selector:
-    matchLabels:
-      app: "nginx-demo"
   replicas: 2 # indica al controlador que ejecute 2 pods
