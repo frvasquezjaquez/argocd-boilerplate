@@ -14,9 +14,9 @@ spec:
   sourceRepos:
   - '*'
   # Destination cluster and namespace to deploy the application
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: '*'
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: '*'
 
 
   # Enables namespace orphaned resource monitoring.
