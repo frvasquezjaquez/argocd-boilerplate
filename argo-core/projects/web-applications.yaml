@@ -13,6 +13,11 @@ spec:
   # Allow manifests to deploy from any Git repos
   sourceRepos:
   - '*'
+  # Destination cluster and namespace to deploy the application
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: '*'
+
 
   # Enables namespace orphaned resource monitoring.
   orphanedResources:
