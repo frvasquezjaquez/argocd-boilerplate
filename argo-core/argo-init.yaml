@@ -68,7 +68,7 @@ spec:
   source:
     repoURL: https://github.com/frvasquezjaquez/argocd-boilerplate.git
     targetRevision: HEAD
-    path: argo-core/application-definitions
+    path: argo-core/applications-definitions
 
   # Destination cluster and namespace to deploy the application
   destination:
