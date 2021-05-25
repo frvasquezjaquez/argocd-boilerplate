@@ -1,49 +1,53 @@
-apiVersion: argoproj.io/v1alpha1
-kind: AppProject
-metadata:
-  name: argo-core
-  namespace: argocd
-  # Finalizer that ensures that project is not deleted until it is not referenced by any application
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  # Project description
-  description: Project which load the argo init config.
-
-  # Destination cluster and namespace to deploy the application
-  destinations:
-    - server: https://kubernetes.default.svc
-      namespace: argocd
-
-  # Allow manifests to deploy from any Git repos
-  sourceRepos:
-  - '*'
-
-  # Enables namespace orphaned resource monitoring.
-  orphanedResources:
-    warn: false
-
---- 
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argo-load-projects
+  name: prd-nginx
   namespace: argocd
 spec:
   # The project the application belongs to.
-  project: argo-core
+  project: web-applications
 
   # Source of the application manifests
   source:
     repoURL: https://github.com/frvasquezjaquez/argocd-boilerplate.git
     targetRevision: HEAD
-    path: argo-core/projects
+    path: applications/business-logic/nginx/overlays/dev
 
   # Destination cluster and namespace to deploy the application
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: web-applications
+
+  # Sync policy
+  syncPolicy:
+    automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
+      prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
+      selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+    syncOptions:     # Sync options which modifies sync behavior
+    - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
+
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev-nginx
+  namespace: argocd
+spec:
+  # The project the application belongs to.
+  project: web-applications
+
+  # Source of the application manifests
+  source:
+    repoURL: https://github.com/frvasquezjaquez/argocd-boilerplate.git
+    targetRevision: HEAD
+    path: applications/business-logic/nginx/overlays/dev
+
+  # Destination cluster and namespace to deploy the application
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: web-applications
 
   # Sync policy
   syncPolicy:
@@ -58,22 +62,22 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argo-load-applications-definitions
+  name: qa-nginx
   namespace: argocd
 spec:
   # The project the application belongs to.
-  project: argo-core
+  project: web-applications
 
   # Source of the application manifests
   source:
     repoURL: https://github.com/frvasquezjaquez/argocd-boilerplate.git
     targetRevision: HEAD
-    path: argo-core/application-definitions
+    path: applications/business-logic/nginx/overlays/qa
 
   # Destination cluster and namespace to deploy the application
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: web-applications
 
   # Sync policy
   syncPolicy:
@@ -82,3 +86,28 @@ spec:
       selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
     syncOptions:     # Sync options which modifies sync behavior
     - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
