@@ -1,0 +1,29 @@
+apiVersion: apps/v1 # Usa apps/v1beta2 para versiones anteriores a 1.9.0
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: azprod
+spec:
+  selector:
+    matchLabels:
+      app: "nginx"
+  replicas: 1 # indica al controlador que ejecute 2 pods
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:stable
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: 100Mi
+            cpu: 20m
+          requests:
+            memory: 50Mi
+            cpu: 10m
+
+
