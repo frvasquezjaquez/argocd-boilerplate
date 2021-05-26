@@ -4,6 +4,10 @@ kind: Application
 metadata:
   name: prd-nginx
   namespace: argocd
+  labels:
+    app: nginx
+    environment: production
+
 spec:
   # The project the application belongs to.
   project: web-applications
@@ -34,6 +38,9 @@ kind: Application
 metadata:
   name: dev-nginx
   namespace: argocd
+  labels:
+    app: nginx
+    environment: development
 spec:
   # The project the application belongs to.
   project: web-applications
@@ -64,6 +71,9 @@ kind: Application
 metadata:
   name: qa-nginx
   namespace: argocd
+  labels:
+    app: nginx
+    environment: qa  
 spec:
   # The project the application belongs to.
   project: web-applications
