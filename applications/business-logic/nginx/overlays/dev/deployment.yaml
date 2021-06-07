@@ -3,4 +3,4 @@ kind: Deployment
 metadata:
   name: nginx-deployment
 spec:
-  replicas: 3 # indica al controlador que ejecute 2 pods
+  replicas: 1 # indica al controlador que ejecute 2 pods
